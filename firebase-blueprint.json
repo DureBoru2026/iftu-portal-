@@ -1,0 +1,129 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "National identity and academic profile for students, teachers, and admins.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["student", "teacher", "admin"] },
+        "grade": { "type": "string" },
+        "stream": { "type": "string" },
+        "level": { "type": "string" },
+        "points": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "pending", "suspended"] },
+        "nid": { "type": "string" },
+        "gender": { "type": "string" },
+        "dob": { "type": "string" },
+        "school": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "address": { "type": "string" },
+        "salary": { "type": "number" },
+        "photo": { "type": "string" },
+        "preferredLanguage": { "type": "string" },
+        "completedLessons": { "type": "array", "items": { "type": "string" } },
+        "completedExams": { "type": "array", "items": { "type": "string" } },
+        "completedCourses": { "type": "array", "items": { "type": "string" } },
+        "certificatesPaid": { "type": "array", "items": { "type": "string" } },
+        "joinedDate": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "email", "role"]
+    },
+    "Course": {
+      "title": "Educational Module",
+      "description": "Sovereign curriculum courses and modules.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "code": { "type": "string" },
+        "grade": { "type": "string" },
+        "stream": { "type": "string" },
+        "level": { "type": "string" },
+        "thumbnail": { "type": "string" },
+        "description": { "type": "string" },
+        "instructor": { "type": "string" },
+        "subject": { "type": "string" },
+        "lessons": { "type": "array" }
+      },
+      "required": ["id", "title", "code"]
+    },
+    "Exam": {
+      "title": "National Exam",
+      "description": "Standardized mock sessions and official assessments.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "courseCode": { "type": "string" },
+        "grade": { "type": "string" },
+        "stream": { "type": "string" },
+        "academicYear": { "type": "number" },
+        "durationMinutes": { "type": "number" },
+        "totalPoints": { "type": "number" },
+        "status": { "type": "string", "enum": ["draft", "published", "closed"] },
+        "type": { "type": "string" },
+        "subject": { "type": "string" },
+        "categories": { "type": "array" },
+        "questions": { "type": "array" },
+        "semester": { "type": "number" }
+      },
+      "required": ["id", "title", "courseCode"]
+    },
+    "News": {
+      "title": "National Bulletin",
+      "description": "Official updates from the Education Center.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "summary": { "type": "string" },
+        "content": { "type": "string" },
+        "tag": { "type": "string" },
+        "image": { "type": "string" },
+        "date": { "type": "string" }
+      },
+      "required": ["id", "title"]
+    },
+    "ExamResult": {
+      "title": "Academic Performance Record",
+      "description": "Immutable results of completed exam sessions.",
+      "type": "object",
+      "properties": {
+        "examId": { "type": "string" },
+        "studentId": { "type": "string" },
+        "score": { "type": "number" },
+        "totalPoints": { "type": "number" },
+        "completedAt": { "type": "string", "format": "date-time" },
+        "timeSpentSeconds": { "type": "number" },
+        "answers": { "type": "object" },
+        "categoryBreakdown": { "type": "object" }
+      },
+      "required": ["examId", "studentId", "score"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Collection of all authorized citizens and faculty."
+    },
+    "/courses/{courseId}": {
+      "schema": "Course",
+      "description": "The National Digital Curriculum Hub."
+    },
+    "/exams/{examId}": {
+      "schema": "Exam",
+      "description": "Published academic assessment modules."
+    },
+    "/news/{newsId}": {
+      "schema": "News",
+      "description": "Public system bulletins and alerts."
+    },
+    "/exam_results/{resultId}": {
+      "schema": "ExamResult",
+      "description": "Performance traceability records."
+    }
+  }
+}
