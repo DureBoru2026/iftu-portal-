@@ -28,10 +28,10 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   const getNavItems = () => {
-    if (!isLoggedIn) return ['home', 'courses', 'news', 'about', 'locator', 'documentation'];
-    if (userRole === 'admin') return ['admin', 'courses', 'leaderboard', 'locator', 'documentation'];
-    if (userRole === 'teacher') return ['teacher', 'courses', 'exams', 'locator', 'documentation'];
-    return ['home', 'courses', 'exams', 'tutor', 'performance', 'leaderboard', 'locator', 'documentation'];
+    if (!isLoggedIn) return ['home', 'courses', 'archive', 'news', 'about', 'locator', 'documentation'];
+    if (userRole === 'admin') return ['admin', 'courses', 'archive', 'leaderboard', 'locator', 'documentation'];
+    if (userRole === 'teacher') return ['teacher', 'courses', 'exams', 'archive', 'locator', 'documentation'];
+    return ['home', 'courses', 'archive', 'exams', 'tutor', 'performance', 'leaderboard', 'locator', 'documentation'];
   };
 
   const navItems = getNavItems();
@@ -67,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({
           {/* Desktop Central Navigation */}
           <nav className="hidden xl:flex items-center bg-gray-50 border-8 border-black rounded-[3rem] px-10 h-24 shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]">
             <div className="flex items-center gap-6">
-              {['home', 'courses', 'news', 'about', 'documentation'].map((v) => (
+              {['home', 'courses', 'archive', 'news', 'about', 'documentation'].map((v) => (
                 <button 
                   key={v} 
                   onClick={() => handleNav(v)} 

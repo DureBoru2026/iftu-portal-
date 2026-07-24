@@ -70,6 +70,21 @@
             border: 3px solid #f1f1f1;
         }
 
+        /* Marquee Animation for History Pulse */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .animate-marquee {
+            display: inline-flex;
+            animation: marquee 35s linear infinite;
+        }
+
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+
         @media print {
             @page { 
                 size: A4; 

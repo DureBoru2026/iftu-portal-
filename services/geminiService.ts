@@ -8,11 +8,51 @@ const LANGUAGE_NAMES = {
   en: "English"
 };
 
+export const fetchWeeklyHistoryPulse = async (): Promise<string[]> => {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return [
+      "1896: The Victory of Adwa stands as an eternal beacon of pan-African sovereignty.",
+      "1908: Opening of Emperor Menelik II School, marking modern formal education in Ethiopia.",
+      "1950: Founding of University College of Addis Ababa for national higher learning.",
+      "1963: Organization of African Unity (OAU) established in Addis Ababa for continental unity.",
+      "2025: IFTU National Digital Sovereign Education Center launches nationwide cloud proctoring."
+    ];
+  }
+  const ai = new GoogleGenAI({ apiKey });
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-3.6-flash',
+      contents: "Generate 5 inspiring historical milestones about Ethiopian history, education, pan-Africanism, and science. Keep each item under 20 words.",
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.ARRAY,
+          items: { type: Type.STRING }
+        }
+      }
+    });
+    const parsed = JSON.parse(response.text || "[]");
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      return parsed;
+    }
+  } catch (error) {
+    console.error("History pulse fetch error:", error);
+  }
+  return [
+    "1896: The Victory of Adwa stands as an eternal beacon of pan-African sovereignty.",
+    "1908: Opening of Emperor Menelik II School, marking modern formal education in Ethiopia.",
+    "1950: Founding of University College of Addis Ababa for national higher learning.",
+    "1963: Organization of African Unity (OAU) established in Addis Ababa for continental unity.",
+    "2025: IFTU National Digital Sovereign Education Center launches nationwide cloud proctoring."
+  ];
+};
+
 export const askTutor = async (question: string, language: Language = 'en', context?: string) => {
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: 'gemini-3.6-flash',
       contents: `Context: ${context || 'General Education'}\nQuestion: ${question}`,
       config: {
         systemInstruction: `You are IFTU AI, the official digital tutor for the Ethiopian National Curriculum (EAES Standards). 

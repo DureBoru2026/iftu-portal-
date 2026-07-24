@@ -1,5 +1,6 @@
 import React from 'react';
 import { User, ExamResult } from '../types';
+import BadgesAchievements from './BadgesAchievements';
 
 interface StudentProfileProps {
   user?: User | null;
@@ -111,26 +112,10 @@ export const StudentProfile: React.FC<StudentProfileProps> = ({
           </div>
         </div>
 
-        {/* Badges Section */}
-        {profileUser.badges && profileUser.badges.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-base font-semibold text-gray-900 mb-3">Earned Achievements</h3>
-            <div className="flex flex-wrap gap-3">
-              {profileUser.badges.map((badge) => (
-                <div
-                  key={badge.id}
-                  className="flex items-center gap-2 bg-amber-50 border border-amber-200 px-3 py-2 rounded-lg"
-                >
-                  <span className="text-xl">{badge.icon || '🏅'}</span>
-                  <div>
-                    <div className="text-xs font-bold text-amber-900">{badge.title}</div>
-                    <div className="text-[10px] text-amber-700">{badge.earnedAt}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Interactive Badges & Achievements Section */}
+        <div className="mb-8">
+          <BadgesAchievements user={profileUser} />
+        </div>
 
         {/* Exam Performance Overview */}
         <div>

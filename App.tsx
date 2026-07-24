@@ -13,15 +13,17 @@ import RegistrationPortal from './components/RegistrationPortal';
 import AboutPortal from './components/AboutPortal';
 import CampusLocator from './components/CampusLocator';
 import DevPortal from './components/DevPortal';
+import SovereignArchive from './components/SovereignArchive';
+import HistoryPulse from './components/HistoryPulse';
 import { MOCK_COURSES, MOCK_NEWS, MOCK_EXAMS, SUMMER_STATS, SUMMER_ACTIVITIES } from './constants';
 import { Course, Grade, User, Exam, ExamResult, EducationLevel, Stream, Language, News } from './types';
 import { fetchLatestEducationNews } from './services/geminiService';
 import { dbService } from './services/dbService';
 
 const TRANSLATIONS: Record<Language, Record<string, string>> = {
-  en: { home: 'Home', courses: 'Courses', exams: 'Exams', tutor: 'AI Tutor', about: 'About', news: 'News', locator: 'Locator', login: 'Login', register: 'Register', leaderboard: 'Rankings', performance: 'My Results', documentation: 'Guide' },
-  am: { home: 'መነሻ', courses: 'ትምህርቶች', exams: 'ፈተናዎች', tutor: 'AI ረዳት', about: 'ስለ እኛ', news: 'ዜና', locator: 'መፈለጊያ', login: 'ይግቡ', register: 'ይመዝገቡ', leaderboard: 'ደረጃዎች', performance: 'ውጤቴ', documentation: 'መመሪያ' },
-  om: { home: 'Mana', courses: 'Koorsoota', exams: 'Qormaata', tutor: 'Gargaaraa AI', about: "Waa'ee", news: 'Oduu', locator: 'Bakka', login: 'Seeni', register: 'Galmaa’i', leaderboard: 'Sadarkaa', performance: 'Bu’aa koo', documentation: 'Qajeelfama' }
+  en: { home: 'Home', courses: 'Courses', archive: 'Archive', exams: 'Exams', tutor: 'AI Tutor', about: 'About', news: 'News', locator: 'Locator', login: 'Login', register: 'Register', leaderboard: 'Rankings', performance: 'My Results', documentation: 'Guide' },
+  am: { home: 'መነሻ', courses: 'ትምህርቶች', archive: 'ቤተ-መዝገብ', exams: 'ፈተናዎች', tutor: 'AI ረዳት', about: 'ስለ እኛ', news: 'ዜና', locator: 'መፈለጊያ', login: 'ይግቡ', register: 'ይመዝገቡ', leaderboard: 'ደረጃዎች', performance: 'ውጤቴ', documentation: 'መመሪያ' },
+  om: { home: 'Mana', courses: 'Koorsoota', archive: 'Mana Kuusaa', exams: 'Qormaata', tutor: 'Gargaaraa AI', about: "Waa'ee", news: 'Oduu', locator: 'Bakka', login: 'Seeni', register: 'Galmaa’i', leaderboard: 'Sadarkaa', performance: 'Bu’aa koo', documentation: 'Qajeelfama' }
 };
 
 const INITIAL_USERS: User[] = [
@@ -460,6 +462,8 @@ const App: React.FC = () => {
         return <PerformancePortal results={userResults} exams={exams} currentUser={currentUser || undefined} courses={courses} onCertPaid={handleCertPaid} />;
       case 'leaderboard':
         return <Leaderboard students={users} />;
+      case 'archive':
+        return <SovereignArchive />;
       case 'tutor':
         return <AITutor />;
       case 'locator':
@@ -470,31 +474,101 @@ const App: React.FC = () => {
         return <DevPortal />;
       default:
         return (
-          <div className="space-y-24 animate-fadeIn">
-            <section className="rounded-[4rem] p-12 md:p-32 text-white bg-gradient-to-br from-[#ef3340] to-black border-8 border-black shadow-[25px_25px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden flex flex-col items-center text-center">
-              <div className="relative z-10 max-w-6xl space-y-12">
-                <h1 className="text-6xl md:text-[12rem] font-black uppercase tracking-tighter leading-[0.8] italic">
-                  SOVEREIGN <br/> LEARNING
+          <div className="space-y-6 sm:space-y-10 animate-fadeIn">
+            {/* Weekly History Pulse Marquee Banner */}
+            <HistoryPulse />
+
+            {/* Hero Sovereign Banner */}
+            <section className="rounded-3xl sm:rounded-[3rem] lg:rounded-[4rem] p-6 sm:p-12 md:p-20 lg:p-28 text-white bg-gradient-to-br from-[#009b44] via-[#005a28] to-[#0f172a] border-4 sm:border-8 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] sm:shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden flex flex-col items-center text-center">
+              {/* Subtle Ethiopian Tricolor Accent Ribbon */}
+              <div className="absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-[#009b44] via-[#ffcd00] to-[#ef3340]"></div>
+              
+              <div className="relative z-10 max-w-5xl space-y-6 sm:space-y-10">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border-2 border-white/20 text-xs sm:text-sm font-black uppercase tracking-widest text-[#ffcd00] backdrop-blur-md">
+                  <span>🇪🇹</span> SOVEREIGN = "Digital Portal Learning Platform"
+                </div>
+
+                <h1 className="text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-none italic">
+                  SOVEREIGN <br />
+                  <span className="text-[#ffcd00] drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">LEARNING</span>
                 </h1>
-                <p className="text-xl md:text-3xl font-black uppercase tracking-widest italic opacity-90">Empowering Ethiopia's Digital Generation.</p>
+
+                <p className="text-sm sm:text-lg md:text-2xl font-bold uppercase tracking-wider italic text-emerald-100 max-w-3xl mx-auto">
+                  Empowering Ethiopia's Digital Sovereign Education Center • Grades 9–12 • STEM & Social Science Streams • Computerized National Exam Engine
+                </p>
+
                 {!isLoggedIn && (
-                  <div className="flex flex-col sm:flex-row gap-8 justify-center pt-8">
-                    <button onClick={() => setActiveView('register')} className="bg-white text-black px-12 py-6 rounded-[2.5rem] border-8 border-black font-black uppercase text-xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:scale-105 transition-all">START REGISTRY</button>
-                    <button onClick={() => setActiveView('login')} className="bg-black text-white px-12 py-6 rounded-[2.5rem] border-8 border-black font-black uppercase text-xl shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] hover:scale-105 transition-all">ACCESS PORTAL</button>
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center pt-4 sm:pt-6">
+                    <button 
+                      onClick={() => setActiveView('register')} 
+                      className="bg-[#ffcd00] text-black px-6 sm:px-10 py-4 sm:py-5 rounded-2xl sm:rounded-[2rem] border-4 border-black font-black uppercase text-sm sm:text-lg shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:scale-105 active:translate-y-1 transition-all"
+                    >
+                      START REGISTRY
+                    </button>
+                    <button 
+                      onClick={() => setActiveView('login')} 
+                      className="bg-black text-white px-6 sm:px-10 py-4 sm:py-5 rounded-2xl sm:rounded-[2rem] border-4 border-white/40 font-black uppercase text-sm sm:text-lg shadow-[6px_6px_0px_0px_rgba(255,255,255,0.2)] hover:scale-105 active:translate-y-1 transition-all"
+                    >
+                      ACCESS PORTAL
+                    </button>
                   </div>
                 )}
               </div>
             </section>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12">
+
+            {/* Platform Quick Statistics */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
               {SUMMER_STATS.map((s, i) => (
-                <div key={i} className="bg-white border-8 border-black rounded-[3rem] p-8 md:p-12 text-center shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] flex flex-col items-center group hover:bg-gray-50 transition-colors">
-                  <div className="w-16 h-16 md:w-24 md:h-24 flex items-center justify-center bg-gray-50 border-4 border-black rounded-2xl mb-6 group-hover:scale-110 transition-transform">
+                <div key={i} className="bg-white border-4 sm:border-8 border-black rounded-2xl sm:rounded-[2.5rem] p-4 sm:p-8 text-center shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] flex flex-col items-center group hover:bg-emerald-50/50 transition-colors">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-gray-50 border-2 sm:border-4 border-black rounded-xl sm:rounded-2xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
                     {s.icon}
                   </div>
-                  <h3 className="text-4xl md:text-6xl font-black italic mb-2" style={{ color: s.color }}>{s.value}</h3>
-                  <p className="text-[8px] md:text-[10px] font-black uppercase text-gray-400 tracking-widest">{s.label}</p>
+                  <h3 className="text-2xl sm:text-4xl md:text-5xl font-black italic mb-1" style={{ color: s.color }}>{s.value}</h3>
+                  <p className="text-[9px] sm:text-[11px] font-black uppercase text-gray-500 tracking-wider">{s.label}</p>
                 </div>
               ))}
+            </div>
+
+            {/* Secondary School Academic Streams & Computerized Hub Features */}
+            <div className="bg-slate-900 text-white rounded-3xl sm:rounded-[3rem] p-6 sm:p-12 md:p-16 border-4 sm:border-8 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] space-y-8">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-6">
+                <div>
+                  <span className="text-xs font-black uppercase tracking-widest text-[#009b44]">National System Standard</span>
+                  <h2 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase italic tracking-tight text-white">Secondary School Digital Curriculum</h2>
+                </div>
+                <button 
+                  onClick={() => setActiveView('courses')}
+                  className="px-6 py-3 bg-[#009b44] hover:bg-emerald-600 text-white rounded-xl font-black uppercase text-xs tracking-wider border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
+                >
+                  Explore All Grade 9–12 Subjects →
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-slate-800/80 p-6 rounded-2xl border-2 border-slate-700 space-y-3">
+                  <div className="text-2xl">🔬</div>
+                  <h3 className="text-lg font-bold text-emerald-400 uppercase">Natural Sciences</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Grade 11 & 12 Advanced Physics, Chemistry, Biology, and Core Mathematics with interactive simulated labs.
+                  </p>
+                </div>
+
+                <div className="bg-slate-800/80 p-6 rounded-2xl border-2 border-slate-700 space-y-3">
+                  <div className="text-2xl">📚</div>
+                  <h3 className="text-lg font-bold text-amber-400 uppercase">Social Sciences</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Ethiopian & World History, Geography, Civics, Economics, and National Development Studies.
+                  </p>
+                </div>
+
+                <div className="bg-slate-800/80 p-6 rounded-2xl border-2 border-slate-700 space-y-3">
+                  <div className="text-2xl">⚡</div>
+                  <h3 className="text-lg font-bold text-blue-400 uppercase">Computerized EAES Exam Engine</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Official Grade 12 national exam mock sessions with auto-grading, real-time analytics, and instant digital transcripts.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         );
